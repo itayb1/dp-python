@@ -35,6 +35,53 @@ http_features = {
     "CmdExe": "off"
 }
 
+mq_source_handler_request_body = {
+    "MQSourceProtocolHandler": {
+        "name": None,
+        "mAdminState": "enabled",
+        "QueueManager": {
+            "value": None,
+        },
+        "GetQueue": "Best_MQ_2",
+        "CodePage": 0,
+        "GetMessageOptions": 1,
+        "ParseProperties": "on",
+        "AsyncPut": "off",
+        "ConcurrentConnections": 1,
+        "PollingInterval": 30,
+        "BatchSize": 0,
+        "RetrieveBackoutSettings": "off",
+        "UseQMNameInURL": "off"
+    }
+}
+
+http_source_handler_request_body = {
+    "HTTPSourceProtocolHandler": {
+        "name": None,
+        "mAdminState": "enabled",
+        "LocalAddress": "eth0_ipv4_1",
+        "LocalPort": 80,
+        "HTTPVersion": "HTTP/1.1",
+        "AllowedFeatures": http_features,
+        "PersistentConnections": "on",
+        "MaxPersistentConnectionsReuse": 0,
+        "AllowCompression": "off",
+        "AllowWebSocketUpgrade": "off",
+        "WebSocketIdleTimeout": 0,
+        "MaxURLLen": 16384,
+        "MaxTotalHdrLen": 128000,
+        "MaxHdrCount": 0,
+        "MaxNameHdrLen": 0,
+        "MaxValueHdrLen": 0,
+        "MaxQueryStringLen": 0,
+        "CredentialCharset": "protocol",
+        "HTTP2MaxStreams": 100,
+        "HTTP2MaxFrameSize": 16384,
+        "HTTP2StreamHeader": "off",
+        "ChunkedEncoding": "on"
+    }
+}
+
 mq_exclude_headers = {
     "MQCIH": "off",
     "MQDLH": "off",
