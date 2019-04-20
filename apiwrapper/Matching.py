@@ -1,10 +1,10 @@
-from .const import API_PATH, rule_request_body
+from .const import API_PATH, match_request_body, match_rule_request_body
 from .base import api_call
 from .DPEndpoint import DPEndpoint
 
 class Matching(DPEndpoint):
     def __init__(self, base_url, auth, domain):
-        Action.__init__(self, base_url=base_url, auth=auth, domain=domain)
+        DPEndpoint.__init__(self, base_url=base_url, auth=auth, domain=domain)
         self.type = "match"
         self.parent_key = "Matching"
         self.api_path = API_PATH["match_action"]
