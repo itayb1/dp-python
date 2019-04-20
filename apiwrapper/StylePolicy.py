@@ -1,0 +1,38 @@
+from .const import API_PATH, style_policy_request_body
+from .base import api_call
+from .DPEndpoint import DPEndpoint
+
+
+class StylePolicy(DPEndpoint):
+    def __init__(self, auth, base_url, domain):
+        DPEndpoint.__init__(self, auth=auth, base_url=base_url, domain=domain)
+        self.__generate_policy_map = lambda match, rule: { "Match": { "value": match }, "Rule": { "value": rule } }
+        self.parent_key = "StylePolicy"
+        self.api_path = API_PATH["style_policy"]
+
+
+    def create(self, name, policy_maps, mpgw=None):
+        """Creates a new ``Style Policy``
+
+        Parameters:
+            name (str): The name of the style policy
+            policy_maps (list): A list of tuples where each tuple contains a match action name and the appropriate rule name respectively
+            mpgw (str): The name of the Multi Protocol Gateway which the style policy would be attached to
+        
+        Examples:
+            policy map tuple - ("test_match_action", "test_rule_name")
+
+        Returns:
+            dict: a dict/json object of new style policy
+        """
+        request_body = style_policy_request_body.copy()
+        if mpgw != None:
+            name = mpgw + "_policy"
+        request_body["StylePolicy"]["name"] = name
+        request_body["StylePolicy"]["PolicyMaps"] = [self.__generate_policy_map(policy_map[0], policy_map[1]) for policy_map in policy_maps]
+                   
+        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+
+        return request_body["StylePolicy"]
+
+
