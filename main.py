@@ -15,11 +15,12 @@ def main():
     #http_handler = api.http_handler.create("test_http_fsh", "0.0.0.0", 4512, "enabled", ["get", "post", "options"])
 
     # api.mq_handler.create(name=get_queue + "_F13", queue_manager="Test_mq_mangaer_grp", get_queue=get_queue, state="enabled")
+    
     try:
-        handler = api.http_handler.get("test_http_fsh")
-        #print(http_handler)
+        handler = api.mq_handler.get_all()
+        print(handler)
         #print("\n")
-        api.http_handler.update(handler, mAdminState="disabled", AllowedFeatures={"POST": "on", "GET": "off"})
+        api.mq_handler.update(handler[0], mAdminState="disabled")
     except Exception as e:
         print(e)
     
