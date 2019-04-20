@@ -14,25 +14,25 @@ class Matching(DPEndpoint):
         """Creates a new ``match action``
 
             Parameters:
-            name (str): The name of the action
-            rule_name (str): The name of the rule which the new validate action would be attached to
-            match_rules (list): A list of json/dict objects representing match rules to be applied to the match action
+                name (str): The name of the action
+                rule_name (str): The name of the rule which the new validate action would be attached to
+                match_rules (list): A list of json/dict objects representing match rules to be applied to the match action
 
             Examples:
-            match_rule json object:
-            {
-                "Type": "url",
-                "HttpTag": "",
-                "HttpValue": "",
-                "Url": "*",
-                "ErrorCode": "",
-                "XPATHExpression": "",
-                "Method": "default",
-                "CustomMethod": ""
-            }
+                match_rule json object:
+                {
+                    "Type": "url",
+                    "HttpTag": "",
+                    "HttpValue": "",
+                    "Url": "*",
+                    "ErrorCode": "",
+                    "XPATHExpression": "",
+                    "Method": "default",
+                    "CustomMethod": ""
+                }
 
             Returns:
-            dict: a dict/json object of the new match action
+                dict: a dict/json object of the new match action
         """
         request_body = match_request_body.copy()
         request_body["Matching"]["name"] =  self.create_name_by_convention(rule_name, "match") if rule_name != None and name == None else name
