@@ -17,7 +17,7 @@ class Action(DPEndpoint):
 
     def append_kwargs(self, request_body, kwargs):
         for key in kwargs.keys():
-            request_body["StylePolicyAction"][key] = kwargs[key]
+            request_body[self.parent_key][key] = kwargs[key]
     
 
     def create_name_by_convention(self, rule_name):
@@ -44,15 +44,15 @@ class ValidateAction(Action):
             dict: a dict/json object of new validate action
         """
         request_body = validate_action_request_body.copy()
-        request_body["StylePolicyAction"]["name"] = self.create_name_by_convention(rule_name) if (rule_name != None and name == None) else name
-        name = request_body["StylePolicyAction"]["name"]
+        request_body[self.parent_key]["name"] = self.create_name_by_convention(rule_name) if (rule_name != None and name == None) else name
+        name = request_body[self.parent_key]["name"]
         schema_request_key = self.schema_types.get(schema_type.lower())
         if schema_request_key:
-            request_body["StylePolicyAction"][schema_request_key] = schema_url
+            request_body[self.parent_key][schema_request_key] = schema_url
         
         self.append_kwargs(request_body, kwargs)
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
-        return request_body["StylePolicyAction"]
+        return request_body[self.parent_key]
 
 
 class TransformAction(Action):
@@ -74,16 +74,16 @@ class TransformAction(Action):
             dict: a dict/json object of the new transform action
         """
         request_body = transform_action_request_body.copy()
-        request_body["StylePolicyAction"]["name"] =  self.create_name_by_convention(rule_name) if rule_name != None and name == None else name
-        name = request_body["StylePolicyAction"]["name"]
-        request_body["StylePolicyAction"]["Transform"] = stylesheet_path
-        request_body["StylePolicyAction"]["StylesheetParameters"] = [{ "ParameterName": "{http://www.datapower.com/param/config}" + key, "ParameterValue": stylesheet_parameters[key] } for key in stylesheet_parameters.keys()]
+        request_body[self.parent_key]["name"] =  self.create_name_by_convention(rule_name) if rule_name != None and name == None else name
+        name = request_body[self.parent_key]["name"]
+        request_body[self.parent_key]["Transform"] = stylesheet_path
+        request_body[self.parent_key]["StylesheetParameters"] = [{ "ParameterName": "{http://www.datapower.com/param/config}" + key, "ParameterValue": stylesheet_parameters[key] } for key in stylesheet_parameters.keys()]
 
         for key,value in kwargs.items():
-            request_body["StylePolicyAction"][key] = value
+            request_body[self.parent_key][key] = value
 
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
-        return request_body["StylePolicyAction"]
+        return request_body[self.parent_key]
 
 
 class MatchAction(Action):
@@ -167,15 +167,15 @@ class ResultAction(Action):
             dict: a dict/json object of new result action
         """
         request_body = result_action_request_body.copy()
-        request_body["StylePolicyAction"]["name"] =  self.create_name_by_convention(rule_name) if rule_name != None and name == None else name
-        name = request_body["StylePolicyAction"]["name"]
-        request_body["StylePolicyAction"]["Input"] = action_input
+        request_body[self.parent_key]["name"] =  self.create_name_by_convention(rule_name) if rule_name != None and name == None else name
+        name = request_body[self.parent_key]["name"]
+        request_body[self.parent_key]["Input"] = action_input
         
 
         self.append_kwargs(request_body, kwargs)
 
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
-        return request_body["StylePolicyAction"]
+        return request_body[self.parent_key]
 
 
 

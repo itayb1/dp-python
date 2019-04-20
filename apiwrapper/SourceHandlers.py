@@ -42,10 +42,10 @@ class HTTPHandler(SourceHandler):
             }
         }
         for key,value in kwargs.items():
-            request_body["HTTPSourceProtocolHandler"][key] = value
+            request_body[self.parent_key][key] = value
 
         response = api_call.post(self.base_url + self._append_domain(self.api_path), auth=self.auth, data=request_body)
-        return request_body["HTTPSourceProtocolHandler"]
+        return request_body[self.parent_key]
 
 
 
@@ -69,7 +69,7 @@ class MQHandler(SourceHandler):
             }
         }
         for key,value in kwargs.items():
-            request_body["MQSourceProtocolHandler"][key] = value
+            request_body[self.parent_key][key] = value
 
         response = api_call.post(self.base_url + self._append_domain(self.api_path), auth=self.auth, data=request_body)
-        return request_body["MQSourceProtocolHandler"]
+        return request_body[self.parent_key]

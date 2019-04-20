@@ -28,11 +28,11 @@ class StylePolicy(DPEndpoint):
         request_body = style_policy_request_body.copy()
         if mpgw != None:
             name = mpgw + "_policy"
-        request_body["StylePolicy"]["name"] = name
-        request_body["StylePolicy"]["PolicyMaps"] = [self.__generate_policy_map(policy_map[0], policy_map[1]) for policy_map in policy_maps]
+        request_body[self.parent_key]["name"] = name
+        request_body[self.parent_key]["PolicyMaps"] = [self.__generate_policy_map(policy_map[0], policy_map[1]) for policy_map in policy_maps]
                    
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
 
-        return request_body["StylePolicy"]
+        return request_body[self.parent_key]
 
 

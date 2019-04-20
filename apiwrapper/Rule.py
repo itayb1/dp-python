@@ -22,14 +22,14 @@ class Rule(DPEndpoint):
                 dict: a dict/json object of new style policy rule
         """
         request_body = rule_request_body.copy()
-        request_body["StylePolicyRule"]["name"] = name
-        request_body["StylePolicyRule"]["Actions"] = [ { "value": action } for action in actions]
-        request_body["StylePolicyRule"]["Direction"] = direction
+        request_body[self.parent_key]["name"] = name
+        request_body[self.parent_key]["Actions"] = [ { "value": action } for action in actions]
+        request_body[self.parent_key]["Direction"] = direction
 
         for key,value in kwargs.items():
-            request_body["StylePolicyRule"][key] = value
+            request_body[self.parent_key][key] = value
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
-        return request_body["StylePolicyRule"]
+        return request_body[self.parent_key]
 
 
 

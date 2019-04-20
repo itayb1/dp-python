@@ -25,16 +25,16 @@ class MPGW(DPEndpoint):
         """
         request_body = MPGW_request_body.copy()
         self.__create_mpgw_policy_attachment(name)
-        request_body["MultiProtocolGateway"]["name"] = name
-        request_body["MultiProtocolGateway"]["FrontProtocol"] = [ { "value": handler } for handler in front_handlers ]
-        request_body["MultiProtocolGateway"]["mAdminState"] = state
-        request_body["MultiProtocolGateway"]["XMLManager"] = { "value": xml_manager }
-        request_body["MultiProtocolGateway"]["StylePolicy"] = { "value": style_policy } 
-        request_body["MultiProtocolGateway"]["PolicyAttachments"] = { "value": name } 
+        request_body[self.parent_key]["name"] = name
+        request_body[self.parent_key]["FrontProtocol"] = [ { "value": handler } for handler in front_handlers ]
+        request_body[self.parent_key]["mAdminState"] = state
+        request_body[self.parent_key]["XMLManager"] = { "value": xml_manager }
+        request_body[self.parent_key]["StylePolicy"] = { "value": style_policy } 
+        request_body[self.parent_key]["PolicyAttachments"] = { "value": name } 
         
 
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
-        return request_body["MultiProtocolGateway"]
+        return request_body[self.parent_key]
     
     
     def __create_mpgw_policy_attachment(self, name):
