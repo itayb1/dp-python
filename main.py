@@ -12,11 +12,16 @@ def main():
     mpgw_name = "BestMPGW5"
     get_queue = "Best_MQ_2"
     
-
+    #http_handler = api.http_handler.create("test_http_fsh", "0.0.0.0", 4512, "enabled", ["get", "post", "options"])
 
     # api.mq_handler.create(name=get_queue + "_F13", queue_manager="Test_mq_mangaer_grp", get_queue=get_queue, state="enabled")
-    handler = api.mq_handler.get("Best_MQ_2_F13")
-    api.mq_handler.update(handler, ParseProperties="off", mAdminState="disabled")
+    try:
+        handler = api.http_handler.get("test_http_fsh")
+        #print(http_handler)
+        #print("\n")
+        api.http_handler.update(handler, mAdminState="disabled", AllowedFeatures={"POST": "on", "GET": "off"})
+    except Exception as e:
+        print(e)
     
 
 
