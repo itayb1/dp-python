@@ -1,4 +1,4 @@
-from .const import API_PATH, http_features, mq_exclude_headers
+from .const import API_PATH, http_features, mq_exclude_headers, mq_source_handler_request_body, http_source_handler_request_body
 from .base import api_call
 from .DPEndpoint import DPEndpoint
 from abc import ABC, abstractmethod
@@ -30,17 +30,27 @@ class HTTPHandler(SourceHandler):
         return allowed_features
 
 
-    def create(self, name, local_address, local_port, state, allowed_features=(), **kwargs):
+    def create(self, name, local_address, local_port, state, allowed_features, **kwargs):
+        """Creates a new ``HTTP Source Protocol Handler``
+
+        Parameters:
+            name (str): The name of http handler
+            local_address (str): alias or ip address 
+            local_port (int): Port number to listen on
+            state (str):  The state of the new handler - "enabled" / "disabled"
+            allowed_features (list/tuple/set): A list/tuple/set of strings representing the allowed http features
+
+        Returns:
+            dict: a dict/json object of the new http source protocol handler
+        """
         request_features = HTTPHandler.__get_allowed_http_features(allowed_features)
-        request_body = {
-            "HTTPSourceProtocolHandler": {
-                "name": name,
-                "mAdminState": state,
-                "LocalAddress": local_address,
-                "LocalPort": local_port,
-                "AllowedFeatures": request_features
-            }
-        }
+        request_body = http_source_handler_request_body.copy()
+        request_body[self.parent_key]["name"] = name
+        request_body[self.parent_key]["mAdminState"] = state
+        request_body[self.parent_key]["LocalAddress"] = local_address
+        request_body[self.parent_key]["LocalPort"] = local_port
+        request_body[self.parent_key]["AllowedFeatures"] = request_features
+
         for key,value in kwargs.items():
             request_body[self.parent_key][key] = value
 
@@ -57,17 +67,26 @@ class MQHandler(SourceHandler):
     
 
     def create(self, name, queue_manager, get_queue, state, parse_properties="on", **kwargs):
-        request_body = { 
-            "MQSourceProtocolHandler": {
-                "name":  name,
-                "mAdminState": state,
-                "QueueManager": {
-                    "value": queue_manager,
-                },
-                "GetQueue": get_queue,
-                "ParseProperties": parse_properties,    
-            }
-        }
+        """Creates a new ``MQ Source Protocol Handler``
+
+        Parameters:
+            name (str): The name of http handler
+            queue_manager (str): Queue manager name 
+            get_queue (int): Get queue name
+            state (str):  The state of the new handler - "enabled" / "disabled"
+            parse_properties (str):  "on" / "off" (default is "on")
+
+        Returns:
+            dict: a dict/json object of the new mq source protocol handler
+        """
+        request_body = mq_source_handler_request_body.copy()
+        body = request_body[self.parent_key]
+        body["name"] = name
+        body["mAdminState"] = state
+        body["QueueManager"]["value"] = queue_manager
+        body["GetQueue"] = get_queue
+        body["ParseProperties"] = parse_properties
+
         for key,value in kwargs.items():
             request_body[self.parent_key][key] = value
 
