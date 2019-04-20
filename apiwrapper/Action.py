@@ -1,4 +1,4 @@
-from .const import API_PATH, validate_action_request_body, transform_action_request_body, result_action_request_body, match_request_body, match_rule_request_body, gateway_script_action_request_body
+from .const import API_PATH, validate_action_request_body, transform_action_request_body, result_action_request_body, gateway_script_action_request_body
 from .base import api_call
 from .DPEndpoint import DPEndpoint
 
@@ -34,7 +34,7 @@ class Action(DPEndpoint):
             dict: a dict/json object of new validate action
         """
         request_body = validate_action_request_body.copy()
-        request_body[self.parent_key]["name"] = self.__create_name_by_convention(rule_name, validate) if (rule_name != None and name == None) else name
+        request_body[self.parent_key]["name"] = self.__create_name_by_convention(rule_name, "validate") if (rule_name != None and name == None) else name
         name = request_body[self.parent_key]["name"]
         schema_request_key = self.schema_types.get(schema_type.lower())
         if schema_request_key:
@@ -107,7 +107,7 @@ class Action(DPEndpoint):
             dict: a dict/json object of new result action
         """
         request_body = result_action_request_body.copy()
-        request_body[self.parent_key]["name"] =  self.__create_name_by_convention(rule_name) if rule_name != None and name == None else name
+        request_body[self.parent_key]["name"] =  self.__create_name_by_convention(rule_name, "results") if rule_name != None and name == None else name
         name = request_body[self.parent_key]["name"]
         request_body[self.parent_key]["Input"] = action_input
         
