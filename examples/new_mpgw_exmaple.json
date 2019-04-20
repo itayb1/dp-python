@@ -1,0 +1,99 @@
+{
+    "mpgw_name": "Test_MPGW4",
+    "rules": [
+        {
+            "name": "Test_MPGW4_test_rule",
+            "direction": "request-rule",
+            "actions": [
+                {
+                    "type": "validate",
+                    "parameters": {
+                        "schema_url": "store:///AAAInfo.xsd",
+                        "schema_type": "xml"
+                    }
+                },
+                {
+                    "type": "xform",
+                    "parameters": {
+                        "stylesheet_path": "store:///soap-mediation.xsl",
+                        "stylesheet_parameters": {
+                            "to": "http://google.com"
+                        }
+                    }
+                },
+                {
+                    "type": "results",
+                    "parameters": {
+                        "input": "INPUT"
+                    }
+                }
+            ],
+            "match": {
+                "name": "test_match_5",
+                "match_rules": [
+                    {
+                        "Type": "url",
+                        "HttpTag": "",
+                        "HttpValue": "",
+                        "Url": "*",
+                        "ErrorCode": "",
+                        "XPATHExpression": "",
+                        "Method": "default",
+                        "CustomMethod": ""
+                    }
+                ],
+                "match_with_pcre": "off",
+                "combine_with_or": "off"
+            }
+        },
+        {
+            "name": "Test_MPGW4_test_rule_2",
+            "direction": "request-rule",
+            "actions": [
+                {
+                    "type": "validate",
+                    "parameters": {
+                        "schema_url": "store:///AAAInfo.xsd",
+                        "schema_type": "xml"
+                    }
+                },
+                {
+                    "type": "xform",
+                    "parameters": {
+                        "stylesheet_path": "store:///soap-mediation.xsl",
+                        "stylesheet_parameters": {
+                            "to": "http://google.com"
+                        }
+                    }
+                },
+                {
+                    "type": "results",
+                    "parameters": {
+                        "input": "INPUT"
+                    }
+                }
+            ],
+            "match": {
+                "name": "test_match_8",
+                "match_rules": [
+                    {
+                        "Type": "url",
+                        "HttpTag": "",
+                        "HttpValue": "",
+                        "Url": "http://152.215.54.45",
+                        "ErrorCode": "",
+                        "XPATHExpression": "",
+                        "Method": "default",
+                        "CustomMethod": ""
+                    }
+                ],
+                "match_with_pcre": "off",
+                "combine_with_or": "off"
+            }
+        }
+    ],
+    "handlers": [
+        "test_fsh",
+        "test_fsh2"
+    ]
+}
