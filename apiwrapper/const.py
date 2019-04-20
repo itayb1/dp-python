@@ -225,6 +225,7 @@ action_common_props = {
     "mAdminState": "enabled",
     "Type": "results",
     "Input": "INPUT",
+    "Output": "OUTPUT",
     "ParseSettingsReference": {
         "URL": "",
         "Literal": "",
@@ -249,6 +250,46 @@ action_common_props = {
     "MethodRewriteType": "GET",
     "MethodType": "POST",
     "MethodType2": "POST"
+}
+
+
+gateway_script_action_request_body = {
+    "StylePolicyAction": {
+        "GatewayScriptLocation": "store:///gatewayscript/example-jwt-validate.js",
+        "StylesheetParameters": {
+            "ParameterName": "a",
+            "ParameterValue": "aa"
+        },
+        "name": None,
+        "mAdminState": "enabled",
+        "Type": "gatewayscript",
+        "Input": "INPUT",
+        "Output": "OUTPUT",
+        "ParseSettingsReference": {
+            "URL": "",
+            "Literal": "",
+            "Default": ""
+        },
+        "ParseMetricsResultType": "none",
+        "TransformLanguage": "none",
+        "ActionDebug": "off",
+        "NamedInOutLocationType": "default",
+        "SSLClientConfigType": "proxy",
+        "Transactional": "off",
+        "SOAPValidation": "body",
+        "SQLSourceType": "static",
+        "JWSVerifyStripSignature": "on",
+        "Asynchronous": "off",
+        "ResultsMode": "first-available",
+        "RetryCount": 0,
+        "RetryInterval": 1000,
+        "MultipleOutputs": "off",
+        "IteratorType": "XPATH",
+        "Timeout": 0,
+        "MethodRewriteType": "GET",
+        "MethodType": "POST",
+        "MethodType2": "POST"
+    }
 }
 
 
