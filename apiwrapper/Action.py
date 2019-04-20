@@ -6,7 +6,6 @@ from .DPEndpoint import DPEndpoint
 class Action(DPEndpoint):
     def __init__(self, auth, base_url, domain):
         DPEndpoint.__init__(self, auth=auth, base_url=base_url, domain=domain)
-        self.rule_name = None
         self.parent_key = "StylePolicyAction"
         self.api_path = API_PATH["style_policy_action"]
         self.schema_types = {"json": "JSONSchemaURL", "xml": "SchemaURL"}
