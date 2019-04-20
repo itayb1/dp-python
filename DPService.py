@@ -81,7 +81,7 @@ def create_rule_actions(rule_name, actions):
 
 def create_style_policy(rules, mpgw_name):
     try:
-        policy_maps, validate_action, route_transform_action, result_action = [], "", "", ""
+        policy_maps = []
         for rule in rules:
             rule_name = rule["name"]
             rule_actions = create_rule_actions(rule_name, rule["actions"])        
