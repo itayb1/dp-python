@@ -66,11 +66,11 @@ def create_rule_actions(rule_name, actions):
         for action in actions:
             parameters = action["parameters"]
             if action["type"] == "validate":
-                rule_action = api.validate_action.create(rule_name=rule_name, schema_url=parameters["schema_url"], schema_type=parameters["schema_type"])
+                rule_action = api.action.create_validate_action(rule_name=rule_name, schema_url=parameters["schema_url"], schema_type=parameters["schema_type"])
             elif action["type"] == "xform":
-                rule_action = api.transform_action.create(rule_name=rule_name, stylesheet_path=parameters["stylesheet_path"], stylesheet_parameters=parameters["stylesheet_parameters"])
+                rule_action = api.action.create_transform_action(rule_name=rule_name, stylesheet_path=parameters["stylesheet_path"], stylesheet_parameters=parameters["stylesheet_parameters"])
             elif action["type"] == "results":
-                rule_action = api.result_action.create(rule_name=rule_name)
+                rule_action = api.action.create_results_action(rule_name=rule_name)
             else:
                 raise ApiError("Invalid action type", 400) 
             rule_actions.append(rule_action["name"])
@@ -86,7 +86,7 @@ def create_style_policy(rules, mpgw_name):
             rule_name = rule["name"]
             rule_actions = create_rule_actions(rule_name, rule["actions"])        
             match_action = rule["match"]
-            match_action = api.match_action.create(name=match_action["name"],match_rules=match_action["match_rules"], combine_with_or=match_action["combine_with_or"], match_with_pcre=match_action["match_with_pcre"])
+            match_action = api.matching.create(name=match_action["name"],match_rules=match_action["match_rules"], combine_with_or=match_action["combine_with_or"], match_with_pcre=match_action["match_with_pcre"])
             policy_maps.append((match_action["name"], rule_name))
             api.rule.create(rule_name, direction=rule["direction"], actions=rule_actions)
         policy = api.style_policy.create(name="", policy_maps=policy_maps, mpgw=mpgw_name)
