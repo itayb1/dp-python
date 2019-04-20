@@ -41,6 +41,14 @@ class DPEndpoint():
             return {}
 
 
+    def __update_dict_values(self, obj, new_dict):
+        for key in new_dict.keys():
+            if  isinstance(new_dict[key], dict):
+                self.__update_dict_values(obj[key], new_dict[key])
+            else:
+                obj[key] = new_dict.get(key)
+
+
     def update(self, obj, fields=None, **fieldargs):
         """Updates a dp object
 
@@ -56,8 +64,7 @@ class DPEndpoint():
             dict: a dict/json object of the requested dp object
         """
         data = DPEndpoint.__work_fields(fields, **fieldargs)
-        for key in data.keys():
-            obj[key] = data.get(key)
+        self.__update_dict_values(obj, data)
         request_body = { self.parent_key : obj }
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=obj["name"]), auth=self.auth, data=request_body)
         return obj 
