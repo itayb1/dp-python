@@ -41,9 +41,15 @@ def hello():
 def create_mq_handler():
     try:
         if request.method == "POST":
-            data_dict = ast.literal_eval(request.data.decode())
-            handler = api.mq_handler.create(data_dict["name"], data_dict["queue_manager"], data_dict["get_queue"], data_dict["state"])
-            return success_response('MQ Handler "' + handler["name"] + '" was created')
+            data_dict, handlers = ast.literal_eval(request.data.decode()), []
+            if isinstance(data_dict, list):
+                for handler_obj in data_dict:
+                    handler = api.mq_handler.create(handler_obj["name"], handler_obj["queue_manager"], handler_obj["get_queue"], handler_obj["state"]) 
+                    handlers.append(handler["name"])
+            else:       
+                handler = api.mq_handler.create(data_dict["name"], data_dict["queue_manager"], data_dict["get_queue"], data_dict["state"])
+                return success_response('MQ Handler "' + handler["name"] + '" was created')
+            return success_response('MQ Handlers ' + str(handlers).strip('[]') + ' were created')
     except ApiError as e:
         raise ApiError(e.message, e.status_code)
 
