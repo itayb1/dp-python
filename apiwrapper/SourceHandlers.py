@@ -50,9 +50,7 @@ class HTTPHandler(SourceHandler):
         request_body[self.parent_key]["LocalAddress"] = local_address
         request_body[self.parent_key]["LocalPort"] = local_port
         request_body[self.parent_key]["AllowedFeatures"] = request_features
-
-        for key,value in kwargs.items():
-            request_body[self.parent_key][key] = value
+        self._append_kwargs(request_body, **kwargs)
 
         response = api_call.post(self.base_url + self._append_domain(self.api_path), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
@@ -86,9 +84,7 @@ class MQHandler(SourceHandler):
         body["QueueManager"]["value"] = queue_manager
         body["GetQueue"] = get_queue
         body["ParseProperties"] = parse_properties
-
-        for key,value in kwargs.items():
-            request_body[self.parent_key][key] = value
+        self._append_kwargs(request_body, **kwargs)
 
         response = api_call.post(self.base_url + self._append_domain(self.api_path), auth=self.auth, data=request_body)
         return request_body[self.parent_key]

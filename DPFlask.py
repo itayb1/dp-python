@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from flask import Flask, request, Response, jsonify
 from flask_cors import CORS
 from apiwrapper import dpAPI

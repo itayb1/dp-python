@@ -25,9 +25,8 @@ class Rule(DPEndpoint):
         request_body[self.parent_key]["name"] = name
         request_body[self.parent_key]["Actions"] = [ { "value": action } for action in actions]
         request_body[self.parent_key]["Direction"] = direction
-
-        for key,value in kwargs.items():
-            request_body[self.parent_key][key] = value
+        self._append_kwargs(request_body, **kwargs)
+        
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 

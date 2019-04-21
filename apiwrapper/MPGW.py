@@ -10,7 +10,7 @@ class MPGW(DPEndpoint):
         self.api_path = API_PATH["mpgw"]
 
 
-    def create(self, name, front_handlers, xml_manager, style_policy, state="enabled"):
+    def create(self, name, front_handlers, xml_manager, style_policy, state="enabled", **kwargs):
         """Creates a new ``Multi Protocol Gateway``
 
         Parameters:
@@ -31,7 +31,7 @@ class MPGW(DPEndpoint):
         request_body[self.parent_key]["XMLManager"] = { "value": xml_manager }
         request_body[self.parent_key]["StylePolicy"] = { "value": style_policy } 
         request_body[self.parent_key]["PolicyAttachments"] = { "value": name } 
-        
+        self._append_kwargs(request_body, **kwargs)
 
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body[self.parent_key]

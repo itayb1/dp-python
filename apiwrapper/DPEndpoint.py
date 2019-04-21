@@ -12,9 +12,9 @@ class DPEndpoint():
         self.api_path = None
 
 
-    def append_kwargs(self, request_name, request_body, kwargs):
-        for key,value in kwargs:
-            request_body[request_name][key] = value
+    def _append_kwargs(self, request_body, **kwargs):
+        for key in kwargs.keys():
+            request_body[self.parent_key][key] = kwargs[key]
 
 
     @staticmethod

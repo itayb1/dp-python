@@ -15,11 +15,6 @@ class Action(DPEndpoint):
         pass
     
 
-    def append_kwargs(self, request_body, **kwargs):
-        for key in kwargs.keys():
-            request_body[self.parent_key][key] = kwargs[key]
-
-
     def create_validate_action(self, schema_url, schema_type, name=None, rule_name=None, **kwargs):
         """Creates a new ``validate action``
 
@@ -38,8 +33,8 @@ class Action(DPEndpoint):
         schema_request_key = self.schema_types.get(schema_type.lower())
         if schema_request_key:
             request_body[self.parent_key][schema_request_key] = schema_url
-
-        self.append_kwargs(request_body, **kwargs)
+        
+        self._append_kwargs(request_body, **kwargs)
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 
@@ -61,7 +56,7 @@ class Action(DPEndpoint):
         name = request_body[self.parent_key]["name"]
         request_body[self.parent_key]["Transform"] = stylesheet_path
         request_body[self.parent_key]["StylesheetParameters"] = [{ "ParameterName": "{http://www.datapower.com/param/config}" + key, "ParameterValue": stylesheet_parameters[key] } for key in stylesheet_parameters.keys()]
-        self.append_kwargs(request_body, **kwargs)
+        self._append_kwargs(request_body, **kwargs)
 
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
@@ -84,7 +79,7 @@ class Action(DPEndpoint):
         name = request_body[self.parent_key]["name"]
         request_body[self.parent_key]["GatewayScriptLocation"] = gateway_script_path
         request_body[self.parent_key]["StylesheetParameters"] = [{ "ParameterName": "{http://www.datapower.com/param/config}" + key, "ParameterValue": stylesheet_parameters[key] } for key in stylesheet_parameters.keys()]
-        self.append_kwargs(request_body, **kwargs)
+        self._append_kwargs(request_body, **kwargs)
 
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
@@ -105,7 +100,7 @@ class Action(DPEndpoint):
         request_body[self.parent_key]["name"] =  self.__create_name_by_convention(rule_name, "results") if rule_name != None and name == None else name
         name = request_body[self.parent_key]["name"]
         request_body[self.parent_key]["Input"] = action_input
-        self.append_kwargs(request_body, **kwargs)
+        self._append_kwargs(request_body, **kwargs)
 
         response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
