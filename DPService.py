@@ -43,7 +43,18 @@ def create_mq_handler():
         if request.method == "POST":
             data_dict = ast.literal_eval(request.data.decode())
             handler = api.mq_handler.create(data_dict["name"], data_dict["queue_manager"], data_dict["get_queue"], data_dict["state"])
-            return success_response('MQ Handler "' + data_dict["name"] + '" was created')
+            return success_response('MQ Handler "' + handler["name"] + '" was created')
+    except ApiError as e:
+        raise ApiError(e.message, e.status_code)
+
+
+@app.route("/api/http_handler/create", methods=['post'])
+def create_http_handler():
+    try:
+        if request.method == "POST":
+            data_dict = ast.literal_eval(request.data.decode())
+            handler = api.http_handler.create(data_dict["name"], data_dict["local_address"], data_dict["local_port"], data_dict["state"], data_dict["allowed_features"])
+            return success_response('HTTP Handler "' + handler["name"] + '" was created')
     except ApiError as e:
         raise ApiError(e.message, e.status_code)
 
