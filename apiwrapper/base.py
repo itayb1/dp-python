@@ -1,6 +1,6 @@
 import requests
 import json
-from exceptions import ApiError
+from .exceptions import ApiError
 
 class api_call():
     

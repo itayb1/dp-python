@@ -3,7 +3,7 @@ from flask_cors import CORS
 from apiwrapper import dpAPI
 import json
 import ast
-from exceptions import ApiError
+from apiwrapper.exceptions import ApiError
 
 
 app = Flask(__name__)
