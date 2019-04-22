@@ -1,6 +1,0 @@
-{
-	"name": "test_fsh2",
-	"queue_manager": "Test_mq_mangaer_grp",
-	"get_queue": "test",
-	"state": "enabled"
-}
