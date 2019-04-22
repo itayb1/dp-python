@@ -94,11 +94,12 @@ class DPEndpoint():
             list: A list containing all retrieved dp objects
         """
         full_request_url = "{base_url}{endpoint}".format(base_url=self.base_url, endpoint=self._append_domain(self.api_path))
-        response = api_call.get(full_request_url, auth=self.auth)[self.parent_key]
+        response = (api_call.get(full_request_url, auth=self.auth)).get(self.parent_key)
         all_objects = []
-        if isinstance(response, list):
-            for obj in response:
-                all_objects.append(DPEndpoint.__delete_keys_from_dict(obj, ["href", "_links"]))
-        else:
-            all_objects.append(DPEndpoint.__delete_keys_from_dict(response, ["href", "_links"]))
+        if response:
+            if isinstance(response, list):
+                for obj in response:
+                    all_objects.append(DPEndpoint.__delete_keys_from_dict(obj, ["href", "_links"]))
+            else:
+                all_objects.append(DPEndpoint.__delete_keys_from_dict(response, ["href", "_links"]))
         return all_objects
