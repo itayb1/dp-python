@@ -32,5 +32,14 @@ class api_call():
         return response
 
 
+    @staticmethod
+    def delete(url, auth):
+        r = requests.delete(url, auth=auth, verify=False)
+        response = r.json()
+        if r.status_code >= 400 and r.status_code < 600:
+            raise ApiError((" ").join(response["error"]).lower(), r.status_code)
+        return response
+
+
 
 
