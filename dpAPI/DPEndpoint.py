@@ -103,3 +103,17 @@ class DPEndpoint():
             else:
                 all_objects.append(DPEndpoint.__delete_keys_from_dict(response, ["href", "_links"]))
         return all_objects
+
+
+    def delete(self, name):
+        """Delets a dp object
+
+        Parameters:
+            name (str): The name of the dp object 
+
+        Returns:
+            dict: a dict/json object of the requested dp object
+        """
+        full_request_url = "{base_url}{endpoint}/{name}".format(base_url=self.base_url, endpoint=self._append_domain(self.api_path), name=name)
+        response = api_call.delete(full_request_url, auth=self.auth)
+        return DPEndpoint.__delete_keys_from_dict(response, ["_links"])

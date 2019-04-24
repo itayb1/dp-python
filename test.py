@@ -1,4 +1,4 @@
-from apiwrapper import dpAPI
+from dpAPI import dpAPI
 
 
 def main():
@@ -17,10 +17,8 @@ def main():
     # api.mq_handler.create(name=get_queue + "_F13", queue_manager="Test_mq_mangaer_grp", get_queue=get_queue, state="enabled")
     
     try:
-        handler = api.mq_handler.get_all()
+        handler = api.mq_handler.delete("test_mq_FSH4")
         print(handler)
-        #print("\n")
-        api.mq_handler.update(handler[0], mAdminState="disabled")
     except Exception as e:
         print(e)
     
