@@ -106,7 +106,7 @@ class DPEndpoint():
 
 
     def delete(self, name):
-        """Delets a dp object
+        """Deletes a dp object
 
         Parameters:
             name (str): The name of the dp object 
