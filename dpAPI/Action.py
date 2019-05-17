@@ -1,6 +1,7 @@
 from .const import API_PATH, validate_action_request_body, transform_action_request_body, result_action_request_body, gateway_script_action_request_body
 from .base import api_call
 import uuid
+from copy import deepcopy
 from .DPEndpoint import DPEndpoint
 
 
@@ -28,7 +29,7 @@ class Action(DPEndpoint):
         Returns:
             dict: a dict/json object of new validate action
         """
-        request_body = validate_action_request_body.copy()
+        request_body = deepcopy(validate_action_request_body)
         request_body[self.parent_key]["name"] = self.__create_name_by_convention(rule_name, "validate", uid) if (rule_name != None and name == None) else name
         name = request_body[self.parent_key]["name"]
         schema_request_key = self.schema_types.get(schema_type.lower())
@@ -36,11 +37,11 @@ class Action(DPEndpoint):
             request_body[self.parent_key][schema_request_key] = schema_url
         
         self._append_kwargs(request_body, **kwargs)
-        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 
 
-    def create_transform_action(self, stylesheet_path,  name=None, rule_name=None, stylesheet_parameters={}, uid=None, **kwargs):
+    def create_transform_action(self, stylesheet_path,  name=None, rule_name=None, stylesheet_parameters=None, uid=None, **kwargs):
         """Creates a new ``transform action``
 
         Parameters:
@@ -52,14 +53,15 @@ class Action(DPEndpoint):
         Returns:
             dict: a dict/json object of the new transform action
         """
-        request_body = transform_action_request_body.copy()
+        request_body = deepcopy(transform_action_request_body)
         request_body[self.parent_key]["name"] =  self.__create_name_by_convention(rule_name, "xform", uid) if rule_name != None and name == None else name
         name = request_body[self.parent_key]["name"]
         request_body[self.parent_key]["Transform"] = stylesheet_path
-        request_body[self.parent_key]["StylesheetParameters"] = [{ "ParameterName": "{http://www.datapower.com/param/config}" + key, "ParameterValue": stylesheet_parameters[key] } for key in stylesheet_parameters.keys()]
+        if stylesheet_parameters != None:
+            request_body[self.parent_key]["StylesheetParameters"] = [{ "ParameterName": "{http://www.datapower.com/param/config}" + key, "ParameterValue": stylesheet_parameters[key] } for key in stylesheet_parameters.keys()]
         self._append_kwargs(request_body, **kwargs)
 
-        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 
 
@@ -75,14 +77,14 @@ class Action(DPEndpoint):
         Returns:
             dict: a dict/json object of the new gateway script action
         """
-        request_body = gateway_script_action_request_body.copy()
+        request_body = deepcopy(gateway_script_action_request_body)
         request_body[self.parent_key]["name"] =  self.__create_name_by_convention(rule_name, "gatewayscript", uid) if rule_name != None and name == None else name
         name = request_body[self.parent_key]["name"]
         request_body[self.parent_key]["GatewayScriptLocation"] = gateway_script_path
         request_body[self.parent_key]["StylesheetParameters"] = [{ "ParameterName": "{http://www.datapower.com/param/config}" + key, "ParameterValue": stylesheet_parameters[key] } for key in stylesheet_parameters.keys()]
         self._append_kwargs(request_body, **kwargs)
 
-        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 
 
@@ -97,13 +99,13 @@ class Action(DPEndpoint):
         Returns:
             dict: a dict/json object of new result action
         """
-        request_body = result_action_request_body.copy()
+        request_body = deepcopy(result_action_request_body)
         request_body[self.parent_key]["name"] =  self.__create_name_by_convention(rule_name, "results", uid) if rule_name != None and name == None else name
         name = request_body[self.parent_key]["name"]
         request_body[self.parent_key]["Input"] = action_input
         self._append_kwargs(request_body, **kwargs)
 
-        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 
 

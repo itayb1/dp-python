@@ -334,10 +334,6 @@ transform_action_request_body = {
         "Input": "NULL",
         "Output": "NULL",
         "Transform": "store:///soap-mediation.xsl",
-        "StylesheetParameters": {
-            "ParameterName": "{http://www.datapower.com/param/config}to",
-            "ParameterValue": "http://google.com"
-        },
         "OutputType": "default",
         "ParseSettingsReference": {
             "URL": "",
