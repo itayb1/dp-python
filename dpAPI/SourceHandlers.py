@@ -1,6 +1,7 @@
 from .const import API_PATH, http_features, mq_exclude_headers, mq_source_handler_request_body, http_source_handler_request_body
 from .base import api_call
 from .DPEndpoint import DPEndpoint
+from copy import deepcopy
 from abc import ABC, abstractmethod
 
 
@@ -44,7 +45,7 @@ class HTTPHandler(SourceHandler):
             dict: a dict/json object of the new http source protocol handler
         """
         request_features = HTTPHandler.__get_allowed_http_features(allowed_features)
-        request_body = http_source_handler_request_body.copy()
+        request_body = deepcopy(http_source_handler_request_body)
         request_body[self.parent_key]["name"] = name
         request_body[self.parent_key]["mAdminState"] = state
         request_body[self.parent_key]["LocalAddress"] = local_address
@@ -77,7 +78,7 @@ class MQHandler(SourceHandler):
         Returns:
             dict: a dict/json object of the new mq source protocol handler
         """
-        request_body = mq_source_handler_request_body.copy()
+        request_body = deepcopy(mq_source_handler_request_body)
         body = request_body[self.parent_key]
         body["name"] = name
         body["mAdminState"] = state

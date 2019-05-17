@@ -1,5 +1,6 @@
 from .const import API_PATH, match_request_body, match_rule_request_body
 from .base import api_call
+from copy import deepcopy
 from .DPEndpoint import DPEndpoint
 
 class Matching(DPEndpoint):
@@ -34,7 +35,7 @@ class Matching(DPEndpoint):
             Returns:
                 dict: a dict/json object of the new match action
         """
-        request_body = match_request_body.copy()
+        request_body = deepcopy(match_request_body)
         request_body["Matching"]["name"] =  self.create_name_by_convention(rule_name, "match") if rule_name != None and name == None else name
         name = request_body["Matching"]["name"]
         request_body["Matching"]["name"] = name
@@ -42,12 +43,12 @@ class Matching(DPEndpoint):
         request_body["Matching"]["MatchWithPCRE"] = match_with_pcre
         request_body["Matching"]["CombineWithOr"] = combine_with_or
 
-        response =  api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response =  api_call.post(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body["Matching"]
 
     @staticmethod
     def create_match_rule(match_type, url="", http_tag="", http_value="", error_code="", xpath="", method="", custom_method=""):
-        match_rule_obj = match_rule_request_body.copy()
+        match_rule_obj = deepcopy(match_rule_request_body)
         match_rule_obj["Type"] = match_type
         match_rule_obj["HttpTag"] = http_tag
         match_rule_obj["HttpValue"] = http_value

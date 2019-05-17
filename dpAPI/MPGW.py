@@ -1,5 +1,6 @@
 from .const import API_PATH, MPGW_request_body, policy_attachment_request_body
 from .base import api_call
+from copy import deepcopy
 from .DPEndpoint import DPEndpoint
 
 
@@ -23,7 +24,7 @@ class MPGW(DPEndpoint):
         Returns:
             dict: a dict/json object of the new mpgw
         """
-        request_body = MPGW_request_body.copy()
+        request_body = deepcopy(MPGW_request_body)
         self.__create_mpgw_policy_attachment(name)
         request_body[self.parent_key]["name"] = name
         request_body[self.parent_key]["FrontProtocol"] = [ { "value": handler } for handler in front_handlers ]
@@ -33,13 +34,13 @@ class MPGW(DPEndpoint):
         request_body[self.parent_key]["PolicyAttachments"] = { "value": name } 
         self._append_kwargs(request_body, **kwargs)
 
-        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
     
     
     def __create_mpgw_policy_attachment(self, name):
-        request_body = policy_attachment_request_body.copy()
+        request_body = deepcopy(policy_attachment_request_body)
         request_body["PolicyAttachments"]["name"] = name
-        return api_call.put(self.base_url + (API_PATH["policy_attachments"]+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        return api_call.post(self.base_url + (API_PATH["policy_attachments"]+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         
 

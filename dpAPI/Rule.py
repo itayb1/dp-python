@@ -1,5 +1,6 @@
 from .const import API_PATH, rule_request_body
 from .base import api_call
+from copy import deepcopy
 from .DPEndpoint import DPEndpoint
 
 
@@ -21,13 +22,13 @@ class Rule(DPEndpoint):
             Returns:
                 dict: a dict/json object of new style policy rule
         """
-        request_body = rule_request_body.copy()
+        request_body = deepcopy(rule_request_body)
         request_body[self.parent_key]["name"] = name
         request_body[self.parent_key]["Actions"] = [ { "value": action } for action in actions]
         request_body[self.parent_key]["Direction"] = direction
         self._append_kwargs(request_body, **kwargs)
         
-        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 
 

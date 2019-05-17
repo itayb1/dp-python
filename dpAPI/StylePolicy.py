@@ -1,5 +1,6 @@
 from .const import API_PATH, style_policy_request_body
 from .base import api_call
+from copy import deepcopy
 from .DPEndpoint import DPEndpoint
 
 
@@ -25,13 +26,13 @@ class StylePolicy(DPEndpoint):
         Returns:
             dict: a dict/json object of new style policy
         """
-        request_body = style_policy_request_body.copy()
+        request_body = deepcopy(style_policy_request_body)
         if mpgw != None:
             name = mpgw + "_policy"
         request_body[self.parent_key]["name"] = name
         request_body[self.parent_key]["PolicyMaps"] = [self.__generate_policy_map(policy_map[0], policy_map[1]) for policy_map in policy_maps]
         self._append_kwargs(request_body, **kwargs)
-        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
 
         return request_body[self.parent_key]
 
