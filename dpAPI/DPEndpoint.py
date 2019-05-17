@@ -26,6 +26,12 @@ class DPEndpoint():
             if key not in keys_set:
                 if isinstance(value, MutableMapping):
                     modified_dict[key] = DPEndpoint.__delete_keys_from_dict(value, keys_set)
+                elif isinstance(value, list):
+                    lst = []
+                    for v in value:
+                        if isinstance(v, MutableMapping):
+                            lst.append(DPEndpoint.__delete_keys_from_dict(v, keys_set)) 
+                            modified_dict[key] = lst
                 else:
                     modified_dict[key] = value  # or copy.deepcopy(value) if a copy is desired for non-dicts.
         return modified_dict

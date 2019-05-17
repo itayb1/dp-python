@@ -43,7 +43,7 @@ class Matching(DPEndpoint):
         request_body["Matching"]["MatchWithPCRE"] = match_with_pcre
         request_body["Matching"]["CombineWithOr"] = combine_with_or
 
-        response =  api_call.post(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response =  api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
         return request_body["Matching"]
 
     @staticmethod
