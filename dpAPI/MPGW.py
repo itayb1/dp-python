@@ -34,13 +34,13 @@ class MPGW(DPEndpoint):
         request_body[self.parent_key]["PolicyAttachments"] = { "value": name } 
         self._append_kwargs(request_body, **kwargs)
 
-        response = api_call.post(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path).format(domain=self.domain), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
     
     
     def __create_mpgw_policy_attachment(self, name):
         request_body = deepcopy(policy_attachment_request_body)
         request_body["PolicyAttachments"]["name"] = name
-        return api_call.post(self.base_url + (API_PATH["policy_attachments"]+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        return api_call.post(self.base_url + (API_PATH["policy_attachments"]).format(domain=self.domain), auth=self.auth, data=request_body)
         
 

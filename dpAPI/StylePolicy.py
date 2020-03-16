@@ -32,7 +32,7 @@ class StylePolicy(DPEndpoint):
         request_body[self.parent_key]["name"] = name
         request_body[self.parent_key]["PolicyMaps"] = [self.__generate_policy_map(policy_map[0], policy_map[1]) for policy_map in policy_maps]
         self._append_kwargs(request_body, **kwargs)
-        response = api_call.post(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path).format(domain=self.domain), auth=self.auth, data=request_body)
 
         return request_body[self.parent_key]
 

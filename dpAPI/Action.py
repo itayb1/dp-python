@@ -37,7 +37,7 @@ class Action(DPEndpoint):
             request_body[self.parent_key][schema_request_key] = schema_url
         
         self._append_kwargs(request_body, **kwargs)
-        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path).format(domain=self.domain), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 
 
@@ -61,7 +61,7 @@ class Action(DPEndpoint):
             request_body[self.parent_key]["StylesheetParameters"] = [{ "ParameterName": "{http://www.datapower.com/param/config}" + key, "ParameterValue": stylesheet_parameters[key] } for key in stylesheet_parameters.keys()]
         self._append_kwargs(request_body, **kwargs)
 
-        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path).format(domain=self.domain), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 
 
@@ -84,7 +84,7 @@ class Action(DPEndpoint):
         request_body[self.parent_key]["StylesheetParameters"] = [{ "ParameterName": "{http://www.datapower.com/param/config}" + key, "ParameterValue": stylesheet_parameters[key] } for key in stylesheet_parameters.keys()]
         self._append_kwargs(request_body, **kwargs)
 
-        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path).format(domain=self.domain), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 
 
@@ -105,7 +105,7 @@ class Action(DPEndpoint):
         request_body[self.parent_key]["Input"] = action_input
         self._append_kwargs(request_body, **kwargs)
 
-        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path).format(domain=self.domain), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 
 

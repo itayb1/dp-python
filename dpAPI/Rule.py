@@ -28,7 +28,7 @@ class Rule(DPEndpoint):
         request_body[self.parent_key]["Direction"] = direction
         self._append_kwargs(request_body, **kwargs)
         
-        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        response = api_call.post(self.base_url + (self.api_path).format(domain=self.domain), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 
 
