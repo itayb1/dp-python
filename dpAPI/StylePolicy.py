@@ -37,3 +37,22 @@ class StylePolicy(DPEndpoint):
         return request_body[self.parent_key]
 
 
+    def get_rules_names(self, name):
+        """Gets the names of the rules associated with the given style policy``
+
+        Parameters:
+            name (str): The name of the style policy
+
+        Returns:
+            list: a list with the names of the rules associated with the given style policy
+        """
+        rules = []
+        resp_style_policy = self.get(name)
+        policy_maps = resp_style_policy["PolicyMaps"]         
+        if isinstance(policy_maps, list):
+            for policy_map in policy_maps:
+                rules.append(policy_map["Rule"]["value"])
+        else:
+            rules.append(policy_maps["Rule"]["value"])
+        
+        return rules
