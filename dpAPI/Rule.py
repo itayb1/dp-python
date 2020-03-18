@@ -32,6 +32,26 @@ class Rule(DPEndpoint):
         return request_body[self.parent_key]
 
 
+    def get_actions_names(self, name):
+        """Gets the names of the actions associated with the given rule``
+
+            Parameters:
+                name (str): The name of the style policy rule
+
+            Returns:
+                list: a list with the names of the actions associated with the given rule
+        """
+        actions = []
+        resp_rule = self.get(name)
+        resp_actions = resp_rule["Actions"]         
+        if isinstance(resp_actions, list):
+            for resp_action in resp_actions:
+                actions.append(resp_action["value"])
+        else:
+            actions.append(resp_actions["value"])
+        
+        return actions
+
 
 
 
