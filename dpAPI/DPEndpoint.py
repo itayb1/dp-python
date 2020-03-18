@@ -55,6 +55,40 @@ class DPEndpoint():
                 obj[key] = new_dict.get(key)
 
 
+    def create_from_dict(self, name, fields, **custom_fields):
+        """Creates a dp object
+
+        Parameters:
+            name (str): The name of the dp object
+            fields (dict): A dict containing field names and the values to use.
+
+        Returns:
+            dict: a dict/json object of the requested dp object
+        """
+        fields.update({"name": name})
+        fields.update(**custom_fields)
+        request_body = { self.parent_key : fields }
+        response = api_call.post(self.base_url + (self.api_path).format(domain=self.domain), auth=self.auth, data=request_body)
+        return self.get(name)
+
+
+    def update_from_dict(self, name, fields, **custom_fields):
+        """Creates a dp object
+
+        Parameters:
+            name (str): The name of the dp object
+            fields (dict): A dict containing field names and the values to use.
+
+        Returns:
+            dict: a dict/json object of the requested dp object
+        """
+        fields.update({"name": name})
+        fields.update(**custom_fields)
+        request_body = { self.parent_key : fields }
+        response = api_call.put(self.base_url + (self.api_path+"/{name}").format(domain=self.domain, name=name), auth=self.auth, data=request_body)
+        return self.get(name)        
+
+
     def update(self, obj, fields=None, **fieldargs):
         """Updates a dp object
 
