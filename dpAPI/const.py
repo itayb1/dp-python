@@ -6,7 +6,9 @@ API_PATH = {
     "style_policy": "mgmt/config/{domain}/StylePolicy",
     "style_policy_action": "mgmt/config/{domain}/StylePolicyAction",
     "style_policy_rule": "mgmt/config/{domain}/StylePolicyRule",
-    "match_action": "mgmt/config/{domain}/Matching"
+    "match_action": "mgmt/config/{domain}/Matching",
+    "status": "mgmt/status/{domain}"
+    
 }
 
 
