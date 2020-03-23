@@ -7,8 +7,10 @@ API_PATH = {
     "style_policy_action": "mgmt/config/{domain}/StylePolicyAction",
     "style_policy_rule": "mgmt/config/{domain}/StylePolicyRule",
     "match_action": "mgmt/config/{domain}/Matching",
+    "xml_manager": "mgmt/config/{domain}/XMLManager",
+    "load_balancer_group": "mgmt/config/{domain}/LoadBalancerGroup",
     "status": "mgmt/status/{domain}"
-    
+
 }
 
 
@@ -100,7 +102,7 @@ mq_exclude_headers = {
 ######                                              ######
 ##########################################################
 
-MPGW_request_body = {   
+MPGW_request_body = {
     "MultiProtocolGateway": {
         "name": None,
         "mAdminState": None,
@@ -206,13 +208,13 @@ MPGW_request_body = {
 }
 
 policy_attachment_request_body = {
-	"PolicyAttachments": {
-	        "name": None,
-	        "mAdminState": "enabled",
-	        "EnforcementMode": "enforce",
-	        "PolicyReferences": "on",
-	        "SLAEnforcementMode": "allow-if-no-sla"
-	}
+    "PolicyAttachments": {
+        "name": None,
+        "mAdminState": "enabled",
+        "EnforcementMode": "enforce",
+        "PolicyReferences": "on",
+        "SLAEnforcementMode": "allow-if-no-sla"
+    }
 }
 
 
@@ -296,36 +298,36 @@ gateway_script_action_request_body = {
 
 
 validate_action_request_body = {
-        "StylePolicyAction": {
-            "name": None,
-            "mAdminState": "enabled",
-            "Type": "validate",
-            "Input": "INPUT",
-            "ParseSettingsReference": {
+    "StylePolicyAction": {
+        "name": None,
+        "mAdminState": "enabled",
+        "Type": "validate",
+        "Input": "INPUT",
+        "ParseSettingsReference": {
                 "URL": "",
                 "Literal": "",
                 "Default": ""
-            },
-            "ParseMetricsResultType": "none",
-            "TransformLanguage": "none",
-            "ActionDebug": "off",
-            "NamedInOutLocationType": "default",
-            "SSLClientConfigType": "proxy",
-            "Transactional": "off",
-            "SOAPValidation": "body",
-            "SQLSourceType": "static",
-            "JWSVerifyStripSignature": "on",
-            "Asynchronous": "off",
-            "ResultsMode": "first-available",
-            "RetryCount": 0,
-            "RetryInterval": 1000,
-            "MultipleOutputs": "off",
-            "IteratorType": "XPATH",
-            "Timeout": 0,
-            "MethodRewriteType": "GET",
-            "MethodType": "POST",
-            "MethodType2": "POST"
-        }
+        },
+        "ParseMetricsResultType": "none",
+        "TransformLanguage": "none",
+        "ActionDebug": "off",
+        "NamedInOutLocationType": "default",
+        "SSLClientConfigType": "proxy",
+        "Transactional": "off",
+        "SOAPValidation": "body",
+        "SQLSourceType": "static",
+        "JWSVerifyStripSignature": "on",
+        "Asynchronous": "off",
+        "ResultsMode": "first-available",
+        "RetryCount": 0,
+        "RetryInterval": 1000,
+        "MultipleOutputs": "off",
+        "IteratorType": "XPATH",
+        "Timeout": 0,
+        "MethodRewriteType": "GET",
+        "MethodType": "POST",
+        "MethodType2": "POST"
+    }
 }
 
 transform_action_request_body = {
@@ -431,7 +433,7 @@ rule_request_body = {
 }
 
 
-# Match 
+# Match
 
 match_request_body = {
     "Matching": {
@@ -439,7 +441,7 @@ match_request_body = {
         "mAdminState": "enabled",
         "MatchRules": None,
         "MatchWithPCRE": "off",
-        "CombineWithOr": "off"        
+        "CombineWithOr": "off"
     }
 }
 
@@ -452,4 +454,166 @@ match_rule_request_body = {
     "XPATHExpression": "",
     "Method": "default",
     "CustomMethod": ""
+}
+
+
+xml_manager_request_body = {
+    "XMLManager": {
+        "name": None,
+        "mAdminState": "enabled",
+        "UserSummary": "Default XML-Manager",
+        "CacheSize": 256,
+        "SHA1Caching": "on",
+        "StaticDocumentCalls": "on",
+        "SearchResults": "on",
+        "SupportTxWarn": "off",
+        "ParserLimitsBytesScanned": 4194304,
+        "ParserLimitsElementDepth": 512,
+        "ParserLimitsAttributeCount": 128,
+        "ParserLimitsMaxNodeSize": 33554432,
+        "ParserLimitsExternalReferences": "forbid",
+        "ParserLimitsMaxPrefixes": 1024,
+        "ParserLimitsMaxNamespaces": 1024,
+        "ParserLimitsMaxLocalNames": 60000,
+        "DocCacheMaxDocs": 5000,
+        "DocCacheSize": 0,
+        "DocMaxWrites": 32768,
+        "UserAgent": {
+            "value": "default"
+        }
+    }
+}
+
+
+load_balancer_group_tcpconnection = {
+    "LoadBalancerGroup": {
+        "name": "test_lbg2",
+        "mAdminState": "enabled",
+        "Algorithm": "round-robin",
+        "RetrieveInfo": "off",
+        "WLMRetrieval": "use-websphere",
+        "WLMTransport": "http",
+        "Damp": 120,
+        "NeverReturnSickMember": "off",
+        "LBGroupMembers": [{
+                "Server": "127.0.0.1",
+                "Weight": 1,
+                "MappedPort": 9000,
+                "Activity": "",
+                "HealthPort": "",
+                "LBMemberState": "enabled"
+        }],
+        "TryEveryServerBeforeFailing": "off",
+        "LBGroupChecks": {
+            "Active": "on",
+            "URI": "/",
+            "Port": 9000,
+            "SSL": "TCPConnection",
+            "Post": "on",
+            "Input": "store:///healthcheck.xml",
+            "Timeout": 10,
+            "Frequency": 180,
+            "XPath": "/",
+            "Filter": "store:///healthcheck.xsl",
+            "SSLProxyProfile": "",
+            "EnforceTimeout": "off",
+            "IndependentChecks": "off",
+            "GatewayScriptChecks": "on",
+            "GatewayScriptReqMethod": "GET",
+            "GatewayScriptCustomReqMethod": "",
+            "GatewayScriptReqDoc": "store:///healthcheck.json",
+            "GatewayScriptReqContentType": "application/json",
+            "GatewayScriptRspHandlerMetadata": "",
+            "GatewayScriptRspHandler": "store:///healthcheck.js",
+            "TCPConnectionType": "Full",
+            "SSLClientConfigType": "proxy",
+            "SSLClient": ""
+        },
+        "MasqueradeMember": "off",
+        "ApplicationRouting": "off",
+        "LBGroupAffinityConf": {
+            "EnableSA": "on",
+            "InsertionCookieName": "DPJSESSIONID",
+            "InsertionPath": "/",
+            "InsertionDomain": "datapower.com",
+            "AffinityWLMOverride": "off",
+            "AffinityMode": "activeConditional",
+            "InsertionAttributes": {
+                "secure": "off",
+                "httponly": "off"
+            }
+        }
+    }
+}
+
+
+load_balancer_group_standard = {
+    "LoadBalancerGroup": {
+        "name": "test_lbg",
+        "mAdminState": "enabled",
+        "Algorithm": "round-robin",
+        "RetrieveInfo": "off",
+        "WLMRetrieval": "use-websphere",
+        "WLMTransport": "http",
+        "Damp": 120,
+        "NeverReturnSickMember": "off",
+        "LBGroupMembers": [{
+                "Server": "127.0.0.1",
+                "Weight": 1,
+                "MappedPort": 9000,
+                "Activity": "",
+                "HealthPort": "",
+                "LBMemberState": "enabled"
+        }],
+        "TryEveryServerBeforeFailing": "off",
+        "LBGroupChecks": {
+            "Active": "on",
+            "URI": "/",
+            "Port": 9000,
+            "SSL": "Standard",
+            "Post": "on",
+            "Input": "store:///healthcheck.xml",
+            "Timeout": 10,
+            "Frequency": 180,
+            "XPath": "/",
+            "Filter": "store:///healthcheck.xsl",
+            "SSLProxyProfile": "",
+            "EnforceTimeout": "off",
+            "IndependentChecks": "off",
+            "GatewayScriptChecks": "on",
+            "GatewayScriptReqMethod": "GET",
+            "GatewayScriptCustomReqMethod": "",
+            "GatewayScriptReqDoc": "store:///healthcheck.json",
+            "GatewayScriptReqContentType": "application/json",
+            "GatewayScriptRspHandlerMetadata": "",
+            "GatewayScriptRspHandler": "store:///healthcheck.js",
+            "TCPConnectionType": "Full",
+            "SSLClientConfigType": "proxy",
+            "SSLClient": ""
+        },
+        "MasqueradeMember": "off",
+        "ApplicationRouting": "off",
+        "LBGroupAffinityConf": {
+            "EnableSA": "on",
+            "InsertionCookieName": "DPJSESSIONID",
+            "InsertionPath": "/",
+            "InsertionDomain": "datapower.com",
+            "AffinityWLMOverride": "off",
+            "AffinityMode": "activeConditional",
+            "InsertionAttributes": {
+                "secure": "off",
+                "httponly": "off"
+            }
+        }
+    }
+}
+
+
+load_balancer_group_member = {
+    "Server": "127.0.0.1",
+    "Weight": 1,
+    "MappedPort": 9000,
+    "Activity": "",
+    "HealthPort": "",
+    "LBMemberState": "enabled"
 }
