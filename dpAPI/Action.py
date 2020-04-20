@@ -1,8 +1,9 @@
-from .const import API_PATH, validate_action_request_body, transform_action_request_body, result_action_request_body, gateway_script_action_request_body
+from .const import API_PATH, validate_action_request_body, transform_action_request_body, result_action_request_body, gateway_script_action_request_body, slm_action_request_body
 from .base import api_call
 import uuid
 from copy import deepcopy
 from .DPEndpoint import DPEndpoint
+from .slm import SLM
 
 
 class Action(DPEndpoint):
@@ -105,6 +106,45 @@ class Action(DPEndpoint):
         request_body[self.parent_key]["Input"] = action_input
         self._append_kwargs(request_body, **kwargs)
 
+        response = api_call.post(self.base_url + (self.api_path).format(domain=self.domain), auth=self.auth, data=request_body)
+        return request_body[self.parent_key]
+    
+
+    def create_slm_action(self, statements, name=None, rule_name=None, action_input="INPUT", uid=None, **kwargs):
+        """Creates a new ``slm action``
+
+        Parameters:
+            name (str): The name of the action
+            statements (list): A list of slm policy statements.
+            
+            [
+                {
+                    "action": "throttle",
+                    "interval": 1,
+                    "interval_type": "moving",
+                    "threshold_algorithm": "greater-than",
+                    "threshold_type": "payload-total",
+                    "threshold_level": "10"
+                }
+            ]
+            
+            rule_name (str): The name of the rule which the new validate action would be attached to
+
+        Returns:
+            dict: a dict/json object of new result action
+        """
+
+        request_body = deepcopy(slm_action_request_body)
+        request_body[self.parent_key]["name"] =  self.create_name_by_convention(rule_name, "slm", uid) if rule_name != None and name == None else name
+        name = request_body[self.parent_key]["name"]
+
+        # Creating slm policy using slm endpoint
+        slm = SLM(self.auth, self.base_url, self.domain)
+        slm_policy = slm.create("{rule_name}_SLM_policy".format(rule_name=rule_name), statements)
+        request_body[self.parent_key]["SLMPolicy"] = slm_policy["name"]
+        request_body[self.parent_key]["Input"] = action_input
+        self._append_kwargs(request_body, **kwargs)
+        
         response = api_call.post(self.base_url + (self.api_path).format(domain=self.domain), auth=self.auth, data=request_body)
         return request_body[self.parent_key]
 

@@ -7,6 +7,7 @@ from .Matching import Matching
 from .status import Status
 from .xml_manager import XmlManager
 from .load_balancer_group import LoadBalanacerGroup
+from .slm import SLM
 
 class DpAPI():
     def __init__(self, base_url, auth, domain):
@@ -20,4 +21,5 @@ class DpAPI():
         self.status = Status(base_url=base_url, auth=auth, domain=domain)
         self.xml_manager = XmlManager(base_url=base_url, auth=auth, domain=domain)
         self.lbg = LoadBalanacerGroup(base_url=base_url, auth=auth, domain=domain)
+        self.slm = SLM(base_url=base_url, auth=auth, domain=domain)
         
