@@ -22,10 +22,10 @@ class SLM(DPEndpoint):
                     {
                         "action": "throttle",
                         "interval": 1,
-                        "interval_type": "moving",
-                        "threshold_algorithm": "greater-than",
-                        "threshold_type": "payload-total",
-                        "threshold_level": "10"
+                        "intervalType": "moving",
+                        "thresholdAlgorithm": "greater-than",
+                        "thresholdType": "payload-total",
+                        "thresholdlLevel": "10"
                     }
                 ]
 
@@ -35,8 +35,8 @@ class SLM(DPEndpoint):
         request_body = deepcopy(slm_policy)
         request_body[self.parent_key]["name"] = name
         for i,statement in enumerate(statements):
-            statement = self.__create_slm_policy_statement(i, statement["action"], statement["interval"], statement["interval_type"],
-                                                           statement["threshold_algorithm"], statement["threshold_type"], statement["threshold_level"])
+            statement = self.__create_slm_policy_statement(i, statement["action"], statement["interval"], statement["intervalType"],
+                                                           statement["thresholdAlgorithm"], statement["thresholdType"], statement["thresholdLevel"])
             request_body[self.parent_key]["Statement"].append(statement)
 
         self._append_kwargs(request_body, **kwargs)

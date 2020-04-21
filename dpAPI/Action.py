@@ -121,10 +121,25 @@ class Action(DPEndpoint):
                 {
                     "action": "throttle",
                     "interval": 1,
-                    "interval_type": "moving",
-                    "threshold_algorithm": "greater-than",
-                    "threshold_type": "payload-total",
-                    "threshold_level": "10"
+                    "intervalType": "moving", 
+                        Fixed - fixed
+                        Moving - moving 
+                        Concurrent - concurrent
+
+                    "thresholdAlgorithm": "greater-than", 
+                        Greater Than - greater-than
+                        Less Than - less-than
+                    
+                    "thresholdType": "payload-total", 
+                        Count All - count-all
+                        Count Erros - count-erros
+                        Internal Latency - latency-internal
+                        Back-end Latency - latency-backend
+                        Total Latency - latency-total
+                        Request Message Payload - payload-request
+                        Response Message Payload - payload-response
+                        Total Message Payload - payload-total
+                    "thresholdlLevel": "10"
                 }
             ]
             
