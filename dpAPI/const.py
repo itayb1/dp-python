@@ -8,6 +8,7 @@ API_PATH = {
     "style_policy_rule": "mgmt/config/{domain}/StylePolicyRule",
     "match_action": "mgmt/config/{domain}/Matching",
     "xml_manager": "mgmt/config/{domain}/XMLManager",
+    "mqqm": "mgmt/config/{domain}/MQQM",
     "load_balancer_group": "mgmt/config/{domain}/LoadBalancerGroup",
     "slm": "mgmt/config/{domain}/SLMPolicy",
     "status": "mgmt/status/{domain}"
