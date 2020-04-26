@@ -11,7 +11,8 @@ API_PATH = {
     "mqqm": "mgmt/config/{domain}/MQQM",
     "load_balancer_group": "mgmt/config/{domain}/LoadBalancerGroup",
     "slm": "mgmt/config/{domain}/SLMPolicy",
-    "status": "mgmt/status/{domain}"
+    "status": "mgmt/status/{domain}",
+    "filestore": "mgmt/filestore/{domain}"
 
 }
 
