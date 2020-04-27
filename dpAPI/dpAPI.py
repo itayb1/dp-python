@@ -9,6 +9,7 @@ from .xml_manager import XmlManager
 from .load_balancer_group import LoadBalanacerGroup
 from .slm import SLM
 from .mqqm import MQQM
+from .filestore import FileStore
 
 
 class DpAPI():
@@ -25,4 +26,5 @@ class DpAPI():
         self.lbg = LoadBalanacerGroup(base_url=base_url, auth=auth, domain=domain)
         self.slm = SLM(base_url=base_url, auth=auth, domain=domain)
         self.mqqm = MQQM(base_url=base_url, auth=auth, domain=domain)
+        self.filestore = FileStore(base_url=base_url, auth=auth, domain=domain)
         

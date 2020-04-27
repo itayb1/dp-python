@@ -18,19 +18,19 @@ class DPEndpoint():
 
 
     @staticmethod
-    def __delete_keys_from_dict(dictionary, keys):
+    def _delete_keys_from_dict(dictionary, keys):
         keys_set = set(keys)  # Just an optimization for the "if key in keys" lookup.
 
         modified_dict = {}
         for key, value in dictionary.items():
             if key not in keys_set:
                 if isinstance(value, MutableMapping):
-                    modified_dict[key] = DPEndpoint.__delete_keys_from_dict(value, keys_set)
+                    modified_dict[key] = DPEndpoint._delete_keys_from_dict(value, keys_set)
                 elif isinstance(value, list):
                     lst = []
                     for v in value:
                         if isinstance(v, MutableMapping):
-                            lst.append(DPEndpoint.__delete_keys_from_dict(v, keys_set)) 
+                            lst.append(DPEndpoint._delete_keys_from_dict(v, keys_set)) 
                             modified_dict[key] = lst
                 else:
                     modified_dict[key] = value  # or copy.deepcopy(value) if a copy is desired for non-dicts.
@@ -121,7 +121,7 @@ class DPEndpoint():
         """
         full_request_url = "{base_url}{endpoint}/{name}".format(base_url=self.base_url, endpoint=self._append_domain(self.api_path), name=name)
         response = api_call.get(full_request_url, auth=self.auth)[self.parent_key]
-        return DPEndpoint.__delete_keys_from_dict(response, ["href"])
+        return DPEndpoint._delete_keys_from_dict(response, ["href"])
     
 
     def get_all(self):
@@ -139,9 +139,9 @@ class DPEndpoint():
         if response:
             if isinstance(response, list):
                 for obj in response:
-                    all_objects.append(DPEndpoint.__delete_keys_from_dict(obj, ["href", "_links"]))
+                    all_objects.append(DPEndpoint._delete_keys_from_dict(obj, ["href", "_links"]))
             else:
-                all_objects.append(DPEndpoint.__delete_keys_from_dict(response, ["href", "_links"]))
+                all_objects.append(DPEndpoint._delete_keys_from_dict(response, ["href", "_links"]))
         return all_objects
 
 
@@ -156,4 +156,4 @@ class DPEndpoint():
         """
         full_request_url = "{base_url}{endpoint}/{name}".format(base_url=self.base_url, endpoint=self._append_domain(self.api_path), name=name)
         response = api_call.delete(full_request_url, auth=self.auth)
-        return DPEndpoint.__delete_keys_from_dict(response, ["_links"])
+        return DPEndpoint._delete_keys_from_dict(response, ["_links"])
