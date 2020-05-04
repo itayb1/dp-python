@@ -22,13 +22,18 @@ class Status(DPEndpoint):
         return False
 
 
-    def  is_port_free(self, port):
+    def is_port_free(self, port, interface=None):
+        if port > 65535:
+            return False
         response = api_call.get(self.base_url + self._append_domain(self.api_path) + "/TCPTable", auth=self.auth)
         tcp_table = response.get("TCPTable")
         if tcp_table:
-            used_ports = sorted(set([row["localPort"] for row in tcp_table]))
-            if port in used_ports or port > 65535:
-                return False
+            result = []
+            listen_table = [row for row in tcp_table if row["state"] == "listen"]
+            for row in listen_table:
+                if row["localIP"] == interface or row["localIP"] == "0.0.0.0":
+                    if port == row["localPort"]:
+                        return False
         return True
 
 
